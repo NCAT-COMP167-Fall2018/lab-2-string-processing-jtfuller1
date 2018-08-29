@@ -48,10 +48,41 @@ public class Lab2StringParsing {
         
         if(validateName(firstName) &&
            validateName(lastName) &&
-           validateGender(gender)
+           validateGender(gender) &&
+           validateAge(age) &&
+           validatePhoneNumber(phoneNumber) &&
+           validateEmail(email)
                 )
             return true;
         return false;
+    }
+    
+    private static boolean validateEmail(String email){
+        boolean output = (email.matches("([A-z]+\\d*)+@[A-z]+\\.com") || email.matches("([A-z]+\\d*)+@[A-z]+\\.net"));
+        if(!output){
+            System.err.println("The email " + email + " was not valid!");
+        }
+        return output;
+    }
+    
+    private static boolean validatePhoneNumber(String phoneNumber){
+        boolean output = phoneNumber.matches("\\(\\d{3}\\)\\d{3}-\\d{4}");
+        if(!output)
+            System.err.println("The phoneNumber " + phoneNumber + " was not valid!");
+        return output; 
+    }
+    
+    private static boolean validateAge(String age){
+        try{
+            int ageNum = Integer.parseInt(age);
+            boolean output = (0 < ageNum && ageNum <= 130);
+            if(!output)
+                System.err.println("The age " + age + " did not fall within the valid age range!");
+            return output;
+        }catch(NumberFormatException exception){
+            System.err.println("The age " + age + " was not valid!");
+            return false;
+        }
     }
     
     private static boolean validateName(String name){
