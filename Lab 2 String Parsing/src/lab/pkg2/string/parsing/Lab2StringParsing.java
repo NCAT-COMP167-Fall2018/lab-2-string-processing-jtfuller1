@@ -28,15 +28,44 @@ public class Lab2StringParsing {
     
     private static void readFile(String fileName){
        try(Scanner scanner = new Scanner(new File(fileName))){
-            //int lineNumber = 1;
             while(scanner.hasNextLine()){
                 String[] line = scanner.nextLine().split(",");
-                records.add(formatEntry(line));
-                //lineNumber++;
+                if(validateRecord(line))
+                    records.add(formatEntry(line));
             }
         }catch(FileNotFoundException exception){
             System.err.println("The file \"" + fileName + "\" was not found!");
         } 
+    }
+    
+    private static boolean validateRecord(String[] line){
+        String firstName = line[0].trim();
+        String lastName = line[1].trim();
+        String gender = line[2].trim();
+        String age = line[3].trim();
+        String phoneNumber = line[4].trim();
+        String email = line[5].trim();
+        
+        if(validateName(firstName) &&
+           validateName(lastName) &&
+           validateGender(gender)
+                )
+            return true;
+        return false;
+    }
+    
+    private static boolean validateName(String name){
+        if(!name.matches("(.*\\d+.*)") && !name.matches("(.*\\W+.*)") )
+            return true;
+        System.err.println("The name " + name + " was not valid.");
+        return false;
+    }
+    
+    private static boolean validateGender(String gender){
+        if(gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female"))
+            return true;
+        System.err.println("The gender " + gender + " was not valid.");
+        return false;
     }
     
     private static String formatEntry(String[] line){
